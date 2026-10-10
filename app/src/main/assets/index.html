@@ -58,38 +58,119 @@ body.dark-mode{
 
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
-.app{max-width:1300px;margin:auto;padding:24px 20px 60px}
+.app{
+  max-width:1300px;
+  margin:auto;
+  padding:20px 18px 60px;
+  padding-top:max(16px, env(safe-area-inset-top, 16px));
+  padding-bottom:max(80px, calc(env(safe-area-inset-bottom, 16px) + 72px));
+  padding-left:max(14px, env(safe-area-inset-left, 14px));
+  padding-right:max(14px, env(safe-area-inset-right, 14px));
+}
 
-/* Top bar */
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}
-.brand{display:flex;align-items:center;gap:13px}
+/* Top bar: Header with Title, Icon & Completion Box, and Action Bar Below */
+.topbar{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-bottom:16px;
+}
+.topbar-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  width:100%;
+}
+.brand{display:flex;align-items:center;gap:12px}
 .logo{
-  width:48px;height:48px;border-radius:17px;
+  width:46px;height:46px;border-radius:16px;
   background:linear-gradient(135deg,#7b57ff,#ff4081);
   display:grid;place-items:center;color:#fff;
-  font-size:26px;font-weight:900;
-  box-shadow:0 10px 24px rgba(123,87,255,0.4);
+  font-size:24px;font-weight:900;
+  box-shadow:0 8px 20px rgba(123,87,255,0.38);
   position:relative;
+  flex-shrink:0;
 }
-.logo:after{content:"";position:absolute;inset:7px;border:2px solid rgba(255,255,255,0.7);border-radius:10px;pointer-events:none}
-.brand h1{font-size:24px;line-height:1;margin:0;letter-spacing:-1px;font-weight:900}
-.brand p{margin:5px 0 0;color:var(--muted);font-size:12px;font-weight:500}
+.logo:after{content:"";position:absolute;inset:6px;border:2px solid rgba(255,255,255,0.7);border-radius:10px;pointer-events:none}
+.brand h1{font-size:22px;line-height:1.05;margin:0;letter-spacing:-0.8px;font-weight:900}
+.brand p{margin:4px 0 0;color:var(--muted);font-size:11.5px;font-weight:500}
 
-.top-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+/* Completion Bar Box right with app title and icon */
+.progressbox{
+  background:linear-gradient(135deg,#1b1735 0%,#291e4b 60%,#3d1e48 100%);
+  border-radius:18px;
+  padding:10px 16px;
+  color:white;
+  box-shadow:0 10px 24px rgba(24,18,48,0.18);
+  border:1px solid rgba(255,255,255,0.12);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-width:160px;
+  flex-shrink:0;
+}
+.progressbox-top{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+}
+.progressnum{
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:-0.8px;
+  line-height:1;
+  color:#ffffff;
+}
+.progresslabel{
+  font-size:9.5px;
+  color:#d5d0f5;
+  text-transform:uppercase;
+  letter-spacing:0.6px;
+  font-weight:750;
+}
+.progressbar{
+  height:7px;
+  background:rgba(255,255,255,0.2);
+  border-radius:10px;
+  margin-top:6px;
+  overflow:hidden;
+}
+.progressbar span{
+  display:block;
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#00f5c4,#bbf743);
+  border-radius:10px;
+  transition:width .35s cubic-bezier(0.16,1,0.3,1);
+  box-shadow:0 0 10px rgba(0,245,196,0.6);
+}
+
+/* Action Buttons Placed Below Title & Completion Bar */
+.action-bar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  width:100%;
+}
 .pillbtn{
   border:1px solid var(--line);background:var(--card-bg);
-  border-radius:14px;padding:9px 14px;font-size:12.5px;
+  border-radius:13px;padding:9px 13px;font-size:12px;
   font-weight:800;color:var(--ink);
-  box-shadow:0 3px 12px rgba(20,15,45,0.05);
-  display:inline-flex;align-items:center;gap:7px;
+  box-shadow:0 3px 10px rgba(20,15,45,0.04);
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
   transition:all .18s cubic-bezier(0.16,1,0.3,1);
+  text-align:center;white-space:nowrap;
+  user-select:none;-webkit-tap-highlight-color:transparent;
 }
-.pillbtn:hover{transform:translateY(-1.5px);box-shadow:0 6px 18px rgba(20,15,45,0.09)}
-.pillbtn:active{transform:translateY(0)}
+.pillbtn:hover{transform:translateY(-1.5px);box-shadow:0 6px 16px rgba(20,15,45,0.08)}
+.pillbtn:active{transform:scale(0.96)}
 .pillbtn.primary{
   background:linear-gradient(135deg,#7657ff,#603bf5);
   color:#ffffff;border-color:transparent;
-  box-shadow:0 8px 20px rgba(118,87,255,0.35);
+  box-shadow:0 6px 18px rgba(118,87,255,0.35);
 }
 .pillbtn.primary:hover{filter:brightness(1.08)}
 .pillbtn.timer-toggle{
@@ -129,33 +210,63 @@ body.dark-mode .pillbtn.timer-toggle{
 .timer-btn.play:hover{background:#6442f5}
 .timer-btn.reset{background:var(--line);color:var(--ink)}
 
-/* Hero Section */
-.hero{
-  background:linear-gradient(135deg,#1b1735 0%,#281e4b 60%,#3d1e48 100%);
-  border-radius:26px;padding:20px 26px;color:white;
-  position:relative;overflow:hidden;box-shadow:0 22px 50px rgba(24,18,48,0.25);
-  margin-bottom:16px;border:1px solid rgba(255,255,255,0.1);
+/* Week Navigator Card */
+.week-card{
+  background:linear-gradient(135deg,rgba(112,77,247,0.06),rgba(255,71,133,0.04)),var(--card-bg);
+  border:1.5px solid var(--line);
+  border-radius:20px;
+  padding:10px 18px;
+  margin-bottom:14px;
+  box-shadow:var(--shadow);
 }
-.hero:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:linear-gradient(135deg,#ff4081,#7c4dff);right:-40px;top:-100px;opacity:.85;filter:blur(1px)}
-.hero:before{content:"";position:absolute;width:120px;height:120px;border-radius:50%;background:#00e5bf;right:110px;bottom:-75px;opacity:.75;filter:blur(1px)}
-.hero-content{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:14px}
-.weeknav{display:flex;align-items:center;gap:10px}
+.weeknav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
 .weeknav button{
-  border:1px solid rgba(255,255,255,0.22);background:rgba(255,255,255,0.12);
-  color:white;border-radius:12px;padding:8px 14px;font-weight:900;font-size:13px;
-  backdrop-filter:blur(4px);transition:all .15s;
+  border:1.5px solid var(--line);
+  background:var(--card-bg);
+  color:var(--ink);
+  border-radius:12px;
+  padding:8px 14px;
+  font-weight:900;
+  font-size:14px;
+  min-width:40px;
+  min-height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 2px 6px rgba(0,0,0,0.03);
+  transition:all .15s;
 }
-.weeknav button:hover{background:rgba(255,255,255,0.25);transform:scale(1.05)}
-.weeklabel{font-weight:800;font-size:14px;color:#f0edff;letter-spacing:-.3px}
-.progressbox{min-width:130px;text-align:right}
-.progressnum{font-size:32px;font-weight:900;letter-spacing:-1.2px;line-height:1}
-.progresslabel{font-size:10.5px;color:#d5d0f5;text-transform:uppercase;letter-spacing:.6px;font-weight:700;margin-top:2px}
-.progressbar{height:8px;background:rgba(255,255,255,0.18);border-radius:10px;margin-top:7px;overflow:hidden}
-.progressbar span{
-  display:block;height:100%;width:0;
-  background:linear-gradient(90deg,#00f5c4,#bbf743);
-  border-radius:10px;transition:width .35s cubic-bezier(0.16,1,0.3,1);
-  box-shadow:0 0 12px rgba(0,245,196,0.6);
+.weeknav button:hover{
+  background:var(--line);
+  transform:translateY(-1px);
+}
+.weeknav button:active{
+  transform:scale(0.95);
+}
+.weeklabel-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+.weeklabel-sub{
+  font-size:9.5px;
+  font-weight:850;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--purple);
+  margin-bottom:2px;
+}
+.weeklabel{
+  font-weight:900;
+  font-size:14.5px;
+  color:var(--ink);
+  letter-spacing:-0.3px;
 }
 
 /* Quick Day Navigation Pills (mobile jump bar) */
@@ -326,7 +437,7 @@ body.dark-mode .main-task:focus{background:#1f193d}
   box-shadow:0 2px 5px rgba(0,0,0,0.015);transition:all .15s;
 }
 body.dark-mode .checkrow{
-  background:rgba(25,21,50,0.75);
+  background:rgba(255,255,255,0.05);
   border-color:color-mix(in srgb,var(--dayink) 25%,transparent);
 }
 .checkrow:hover{
@@ -500,19 +611,245 @@ body.dark-mode .notearea{background:rgba(40,24,16,0.75);border-color:rgba(249,11
 }
 .modal-footer{padding:16px 22px;border-top:1.5px solid var(--line);display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap}
 
-/* Responsive adjustments */
-@media(max-width:600px){
-  .app{padding:14px 12px 36px}
-  .brand h1{font-size:20px}
-  .top-actions{gap:5px}
-  .pillbtn{padding:8px 11px;font-size:11px}
-  .stats{grid-template-columns:1fr;gap:8px}
-  .stat{padding:12px 14px}
+/* Responsive adjustments for Oppo 21 Pro & Mobile devices */
+@media(max-width:640px){
+  .hide-on-compact{display:none}
+  .brand h1{font-size:19px}
+  .brand p{font-size:10.5px}
+  .logo{width:40px;height:40px;border-radius:14px;font-size:20px}
+  
+  /* Stats 3-Box Row: Kept side-by-side like desktop preview */
+  .stats{
+    grid-template-columns:repeat(3,1fr);
+    gap:7px;
+    margin-bottom:16px;
+  }
+  .stat{
+    padding:10px 6px;
+    border-radius:16px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:4px;
+  }
+  .staticon{
+    width:32px;height:32px;
+    border-radius:10px;
+    font-size:15px;
+    margin-bottom:1px;
+  }
+  .stat strong{
+    font-size:18px;
+    line-height:1;
+    letter-spacing:-0.5px;
+  }
+  .stat small{
+    font-size:9.5px;
+    font-weight:750;
+    line-height:1.15;
+    text-align:center;
+    margin-top:1px;
+  }
+  
+  /* Topbar Header & Completion Bar Box */
+  .topbar-header{
+    gap:8px;
+    margin-bottom:8px;
+  }
+  .brand h1{font-size:19px}
+  .brand p{font-size:10.5px}
+  .logo{width:40px;height:40px;border-radius:14px;font-size:21px}
+  
+  .progressbox{
+    min-width:116px;
+    max-width:142px;
+    padding:7px 11px;
+    border-radius:15px;
+  }
+  .progressnum{font-size:19px}
+  .progresslabel{font-size:8px;letter-spacing:0.3px}
+  .progressbar{height:5px;margin-top:4px}
+  
+  /* Action Buttons placed below: 3 columns, 2 rows */
+  .action-bar{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:6px;
+    width:100%;
+  }
+  .action-bar .pillbtn{
+    padding:8.5px 4px;
+    font-size:11.5px;
+    border-radius:12px;
+    width:100%;
+    justify-content:center;
+  }
+
+  /* Week Card */
+  .week-card{
+    padding:8px 12px;
+    border-radius:16px;
+    margin-bottom:10px;
+  }
+  .weeknav{gap:6px}
+  .weeknav button{
+    padding:7px 11px;
+    font-size:14px;
+    border-radius:10px;
+    min-width:38px;
+    min-height:38px;
+  }
+  .weeklabel{font-size:12.5px;letter-spacing:-0.2px}
+
+  /* Day Jump Bar */
+  .day-jump-bar{padding:3px 2px 10px;margin-bottom:4px}
+  .day-jump-pill{
+    flex:0 0 calc((100% - 24px) / 4.2);
+    min-width:56px;
+    height:36px;
+    padding:0 6px;
+    font-size:11.5px;
+  }
+
+  /* Daily Canvas Cards */
   .days{grid-template-columns:1fr;gap:14px}
-  .lowergrid{grid-template-columns:1fr}
+  .daycard{border-radius:22px}
+  .dayhead{padding:12px 14px}
+  .daynum{width:36px;height:36px;border-radius:12px;font-size:14px}
+  .dayname h4{font-size:15px}
+  .dayname small{font-size:11px}
+  .dayhead-right{gap:5px}
+  .exam-tag-btn{padding:5px 8px;font-size:10px;border-radius:9px}
+  .daytag{padding:5px 8px;font-size:9.5px;border-radius:8px}
+  .daybody{padding:4px 14px 16px}
+  .main-task{
+    font-size:13.5px;
+    min-height:86px;
+    padding:11px 12px;
+    border-radius:13px;
+  }
+  .checkrow{
+    padding:9px 10px;
+    gap:9px;
+    border-radius:11px;
+  }
+  .checkrow input[type=checkbox]{
+    width:20px;height:20px;
+    border-radius:6px;
+    flex:0 0 20px;
+  }
+  .checktext{font-size:13px}
+  .remove{width:26px;height:26px;display:grid;place-items:center;font-size:18px}
+  .addtask{padding:10px;font-size:12px;border-radius:11px}
+
+  /* Lower Grid */
+  .lowergrid{grid-template-columns:1fr;gap:14px}
+  .panel{padding:16px 14px;border-radius:22px}
+  .masterrow{padding:9px 10px}
+  .masterrow input[type=text]{font-size:13px}
+  .smalladd{width:100%;text-align:center;padding:10px;font-size:12px}
+  .notearea{font-size:13.5px;min-height:95px;padding:11px 12px}
+
+  /* Palette Grid in Mobile */
   .palette-grid{grid-template-columns:repeat(2,1fr)}
-  .share-row{flex-direction:column;align-items:stretch}
-  .sharebtn,.backup-btn{width:100%;text-align:center;justify-content:center}
+
+  /* Share & Backup Row */
+  .share-row{flex-direction:column;gap:8px}
+  .sharebtn{
+    width:100%;height:44px;
+    font-size:13px;
+    justify-content:center;
+    border-radius:13px;
+  }
+  .backup-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    width:100%;
+  }
+  .backup-btn{
+    width:100%;height:40px;
+    font-size:12px;
+    justify-content:center;
+    border-radius:12px;
+  }
+
+  /* Print Modal in Mobile */
+  .modal-overlay{padding:12px}
+  .modal-box{border-radius:22px;max-height:92vh}
+  .modal-header{padding:14px 16px}
+  .modal-header h3{font-size:16px}
+  .modal-body{padding:14px 16px}
+  .modal-footer{
+    padding:12px 14px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+  .modal-footer button{width:100%;padding:10px 6px;font-size:11.5px;justify-content:center}
+  .modal-footer button.primary{grid-column:span 2;padding:11px 6px}
+}
+
+/* Floating Mobile Quick Dock for Oppo 21 Pro */
+.mobile-quick-dock{display:none}
+@media(max-width:640px){
+  .mobile-quick-dock{
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    position:fixed;
+    left:12px;
+    right:12px;
+    bottom:max(10px, env(safe-area-inset-bottom, 8px));
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border:1.5px solid rgba(229,226,243,0.85);
+    border-radius:20px;
+    padding:6px 6px;
+    box-shadow:0 14px 34px rgba(20,15,50,0.16),0 2px 6px rgba(0,0,0,0.04);
+    z-index:90;
+  }
+  body.dark-mode .mobile-quick-dock{
+    background:rgba(24,21,46,0.92);
+    border-color:rgba(56,48,92,0.85);
+    box-shadow:0 14px 34px rgba(0,0,0,0.45);
+  }
+  .dock-btn{
+    background:transparent;
+    border:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:5px 6px;
+    border-radius:12px;
+    color:var(--ink);
+    font-size:9.5px;
+    font-weight:800;
+    gap:2px;
+    flex:1;
+    transition:all 0.15s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .dock-btn:active{
+    transform:scale(0.92);
+    background:rgba(112,77,247,0.1);
+  }
+  .dock-icon{font-size:17px;line-height:1}
+  .dock-label{letter-spacing:-0.2px}
+  .dock-btn-primary{
+    background:linear-gradient(135deg,#7657ff,#5532eb);
+    color:#ffffff;
+    box-shadow:0 4px 12px rgba(118,87,255,0.35);
+    border-radius:14px;
+    padding:6px 6px;
+  }
+  .dock-btn-primary:active{
+    transform:scale(0.92);
+    filter:brightness(1.1);
+  }
 }
 
 @media(min-width:950px){
@@ -524,7 +861,7 @@ body.dark-mode .notearea{background:rgba(40,24,16,0.75);border-color:rgba(249,11
 @media print{
   body{background:#fff!important;color:#000!important}
   .app{max-width:none;padding:0}
-  .topbar,.top-actions,.weeknav,.day-jump-bar,.addtask,.remove,.smalladd,.color-settings,.share-row,.footer,.timer-widget,.modal-overlay{display:none!important}
+  .topbar,.action-bar,.week-card,.weeknav,.day-jump-bar,.addtask,.remove,.smalladd,.color-settings,.share-row,.footer,.timer-widget,.modal-overlay,.mobile-quick-dock{display:none!important}
   .days{grid-template-columns:repeat(2,1fr);gap:10px}
   .daycard,.panel,.stat{box-shadow:none!important;break-inside:avoid;border:1px solid #ccc!important}
   .lowergrid{grid-template-columns:1fr 1fr}
@@ -533,20 +870,33 @@ body.dark-mode .notearea{background:rgba(40,24,16,0.75);border-color:rgba(249,11
 </head>
 <body>
 <div class="app">
-  <!-- Topbar -->
+  <!-- Topbar: App Title + Icon + Completion Bar Box, with Action Buttons Below -->
   <header class="topbar">
-    <div class="brand">
-      <div class="logo" aria-label="My Exam Planner app icon">✓</div>
-      <div>
-        <h1>My Exam Planner</h1>
-        <p>Your weekly study canvas</p>
+    <div class="topbar-header">
+      <div class="brand">
+        <div class="logo" aria-label="My Exam Planner app icon">✓</div>
+        <div>
+          <h1>My Exam Planner</h1>
+          <p>Your weekly study canvas</p>
+        </div>
+      </div>
+
+      <!-- Completion Bar Box right with app title and icon -->
+      <div class="progressbox" id="headerProgressBox" title="Weekly task completion">
+        <div class="progressbox-top">
+          <span class="progresslabel">weekly completion</span>
+          <span class="progressnum" id="progressNum">0%</span>
+        </div>
+        <div class="progressbar"><span id="progressFill"></span></div>
       </div>
     </div>
-    <div class="top-actions">
-      <button class="pillbtn timer-toggle" id="timerToggleBtn" title="Toggle Pomodoro Study Timer">⏱️ Focus Timer</button>
-      <button class="pillbtn" id="darkToggleBtn" title="Toggle Dark/Light Mode">🌙 Theme</button>
-      <button class="pillbtn" id="todayBtn">Today</button>
-      <button class="pillbtn primary" id="printBtn">↗ Print / PDF</button>
+
+    <!-- Action buttons placed below it for good adjustment -->
+    <div class="action-bar" id="actionBar">
+      <button class="pillbtn timer-toggle" id="timerToggleBtn" title="Toggle Pomodoro Study Timer">⏱️ <span class="hide-on-compact">Focus </span>Timer</button>
+      <button class="pillbtn" id="darkToggleBtn" title="Toggle Dark/Light Mode">🌙<span class="hide-on-compact"> Theme</span></button>
+      <button class="pillbtn" id="todayBtn">📅 Today</button>
+      <button class="pillbtn primary" id="printBtn">↗ Print<span class="hide-on-compact"> / PDF</span></button>
       <button class="pillbtn" id="saveWeekBtn">💾 Save</button>
       <button class="pillbtn" id="clearBtn">↻ Reset</button>
     </div>
@@ -568,21 +918,15 @@ body.dark-mode .notearea{background:rgba(40,24,16,0.75);border-color:rgba(249,11
     </div>
   </div>
 
-  <!-- Hero Banner -->
-  <section class="hero">
-    <div class="hero-content">
-      <div>
-        <div class="weeknav">
-          <button id="prevWeek" aria-label="Previous week">←</button>
-          <span class="weeklabel" id="weekLabel">This week</span>
-          <button id="nextWeek" aria-label="Next week">→</button>
-        </div>
+  <!-- Week Navigation Card -->
+  <section class="week-card">
+    <div class="weeknav">
+      <button id="prevWeek" aria-label="Previous week" title="Previous week">←</button>
+      <div class="weeklabel-container">
+        <span class="weeklabel-sub">Weekly Schedule</span>
+        <span class="weeklabel" id="weekLabel">This week</span>
       </div>
-      <div class="progressbox">
-        <div class="progressnum" id="progressNum">0%</div>
-        <div class="progresslabel">weekly completion</div>
-        <div class="progressbar"><span id="progressFill"></span></div>
-      </div>
+      <button id="nextWeek" aria-label="Next week" title="Next week">→</button>
     </div>
   </section>
 
@@ -656,7 +1000,7 @@ body.dark-mode .notearea{background:rgba(40,24,16,0.75);border-color:rgba(249,11
   <!-- Action Bar: WhatsApp & Backup -->
   <div class="share-row">
     <button class="pillbtn sharebtn" id="shareBtn">☘ Share this week on WhatsApp</button>
-    <div style="display:flex;gap:7px">
+    <div class="backup-actions">
       <button class="backup-btn" id="exportBackupBtn">📥 Backup (JSON)</button>
       <button class="backup-btn" id="importBackupBtn">📤 Restore</button>
       <input type="file" id="backupFileInput" accept=".json" style="display:none">
@@ -675,6 +1019,30 @@ body.dark-mode .notearea{background:rgba(40,24,16,0.75);border-color:rgba(249,11
 
 <!-- Toast Popup -->
 <div class="toast" id="toast"></div>
+
+<!-- Mobile Floating Quick Dock (Optimized for Oppo 21 Pro & Touch ergonomics) -->
+<nav class="mobile-quick-dock" aria-label="Mobile quick actions">
+  <button type="button" class="dock-btn" id="dockToday" title="Jump to Today">
+    <span class="dock-icon">📅</span>
+    <span class="dock-label">Today</span>
+  </button>
+  <button type="button" class="dock-btn" id="dockTimer" title="Focus Timer">
+    <span class="dock-icon">⏱️</span>
+    <span class="dock-label">Timer</span>
+  </button>
+  <button type="button" class="dock-btn dock-btn-primary" id="dockPrint" title="Print or Export">
+    <span class="dock-icon">↗</span>
+    <span class="dock-label">Print</span>
+  </button>
+  <button type="button" class="dock-btn" id="dockSave" title="Save Weekly Plan">
+    <span class="dock-icon">💾</span>
+    <span class="dock-label">Save</span>
+  </button>
+  <button type="button" class="dock-btn" id="dockTheme" title="Switch Theme">
+    <span class="dock-icon">🌙</span>
+    <span class="dock-label">Theme</span>
+  </button>
+</nav>
 
 <!-- Print & Export Modal -->
 <div class="modal-overlay" id="printModal">
@@ -714,9 +1082,7 @@ const vibrantDefaults=[
   ['#FFEDD5','#9A3412']  // Sun: Warm Peach / Burnt Tangerine
 ];
 
-let weekStart=getMonday(new Date());
-let data=loadData();
-let toastTimer;
+const defaultSectionColors={master:'#e9f2ff'};
 
 // Audio Chime Synthesizer
 function playChime(freq=880){
@@ -736,14 +1102,6 @@ function playChime(freq=880){
   }catch(e){}
 }
 
-const defaultSectionColors={master:'#e9f2ff'};
-data.theme=data.theme||{days:vibrantDefaults.map(c=>c[0]),master:defaultSectionColors.master};
-if(data.darkMode) document.body.classList.add('dark-mode');
-
-function getDayColors(i){return [data.theme.days?.[i]||vibrantDefaults[i][0],vibrantDefaults[i][1]]}
-function applySectionColors(){
-  document.querySelector('.lowergrid>.panel:first-child')?.style.setProperty('--master-bg',data.theme.master||defaultSectionColors.master);
-}
 function getMonday(d){
   let x=new Date(d);
   x.setHours(12,0,0,0);
@@ -753,7 +1111,6 @@ function getMonday(d){
 function dateKey(d){
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 }
-function weekKey(){return dateKey(weekStart)}
 function fmt(d,opts={month:'short',day:'numeric'}){return d.toLocaleDateString(undefined,opts)}
 function shiftDate(d,n){let x=new Date(d);x.setDate(x.getDate()+n);return x}
 
@@ -779,6 +1136,19 @@ function loadData(){
     return loaded;
   }catch(e){return defaultData()}
 }
+
+let weekStart=getMonday(new Date());
+let data=loadData();
+let toastTimer;
+
+data.theme=data.theme||{days:vibrantDefaults.map(c=>c[0]),master:defaultSectionColors.master};
+if(data.darkMode) document.body.classList.add('dark-mode');
+
+function getDayColors(i){return [data.theme.days?.[i]||vibrantDefaults[i][0],vibrantDefaults[i][1]]}
+function applySectionColors(){
+  document.querySelector('.lowergrid>.panel:first-child')?.style.setProperty('--master-bg',data.theme.master||defaultSectionColors.master);
+}
+function weekKey(){return dateKey(weekStart)}
 
 function ensureWeek(){
   let k=weekKey();
@@ -1102,7 +1472,7 @@ function generateFormattedPlanText(){
   const master=data.master.filter(t=>t.text.trim());
   if(master.length){
     lines.push('--- MASTER TO DO ---');
-    master.forEach(t=>lines.push('  [' + (t.done?'X':' ') + '] ' + t.text.trim()));
+    master.forEach(t=>lines.push((t.done?'X':' ') + '] ' + t.text.trim()));
     lines.push('');
   }
 
@@ -1235,7 +1605,7 @@ timerPlayBtn.addEventListener('click',()=>{
         timerPlayBtn.style.background='var(--purple)';
         playChime(1046);
         setTimeout(()=>playChime(1318),180);
-        alert('🎉 Focus session completed! Take a 5-minute breather.');
+        toast('🎉 Focus session completed! Take a 5-minute breather.');
         timerSeconds=25*60;
         updateTimerDisplay();
         return;
@@ -1299,6 +1669,22 @@ document.getElementById('shareBtn').addEventListener('click',()=>{
   window.location.href=url;
   toast('Opening WhatsApp with your weekly plan');
 });
+
+// Mobile Quick Dock Listeners (Oppo 21 Pro)
+const dockToday=document.getElementById('dockToday');
+if(dockToday) dockToday.addEventListener('click',()=>document.getElementById('todayBtn')?.click());
+
+const dockTimer=document.getElementById('dockTimer');
+if(dockTimer) dockTimer.addEventListener('click',()=>document.getElementById('timerToggleBtn')?.click());
+
+const dockPrint=document.getElementById('dockPrint');
+if(dockPrint) dockPrint.addEventListener('click',()=>document.getElementById('printBtn')?.click());
+
+const dockSave=document.getElementById('dockSave');
+if(dockSave) dockSave.addEventListener('click',()=>document.getElementById('saveWeekBtn')?.click());
+
+const dockTheme=document.getElementById('dockTheme');
+if(dockTheme) dockTheme.addEventListener('click',()=>document.getElementById('darkToggleBtn')?.click());
 
 render();
 updateTimerDisplay();
